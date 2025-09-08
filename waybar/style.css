@@ -1,0 +1,28 @@
+* {
+  font-size: 18px;
+  font-family: monospace;
+}
+window#waybar {
+  background: #241B2A;
+  color: #d58ab3; /* pastelowy róż */
+}
+
+/* Tytuł aktywnego okna */
+#window {
+  color: #d58ab3;
+  font-weight: 600;
+}
+
+/* Workspaces */
+#workspaces button {
+  color: #d58ab3;
+}
+#workspaces button.focused {
+  background: #3a2a40;
+  color: #ffffff;
+}
+
+/* Moduły po prawej */
+#clock, #pulseaudio, #network, #battery {
+  color: #d58ab3;
+}
