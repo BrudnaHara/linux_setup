@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Telegram
+Exec=telegram-desktop
+Icon=telegram
+Type=Application
+Categories=Network;Chat;
