@@ -1,0 +1,110 @@
+no to wysyłam manifest: sway_setup_manifest:
+  distro: Debian 13
+  packages_installed:
+    - sway
+    - swaybg
+    - swayidle
+    - swaylock
+    - waybar
+    - wofi
+    - wl-clipboard
+    - xwayland
+    - foot
+    - grim
+    - slurp
+    - pavucontrol
+    - libinput-tools
+    - wev
+
+  files:
+    "~/.config/sway/config":
+      changes:
+        - set $mod Mod4
+        - set $term foot
+        - set $menu 'env XDG_DATA_DIRS=/home/brudna_hara/.local/share:/usr/local/share:/usr/share wofi --show drun'
+        - 'output * scale 1.5'
+        - |
+          input * {
+              xkb_layout "pl"
+          }
+        - |
+          # touchpad (właściwe urządzenie)
+          input "SYNA308D:00 06CB:82F5 Touchpad" {
+              tap enabled
+              natural_scroll enabled
+              dwt enabled
+              click_method clickfinger
+          }
+        - |
+          # kolory ramek/tytułów okien
+          client.focused          #241B2A #241B2A #d58ab3 #d58ab3 #241B2A
+          client.focused_inactive #241B2A #241B2A #888888 #888888 #241B2A
+          client.unfocused        #241B2A #241B2A #888888 #888888 #241B2A
+          client.urgent           #241B2A #241B2A #ff5555 #ff5555 #241B2A
+        - 'exec waybar'
+        - # nawigacja: używasz domyślnych $mod+strzałki, $mod+Shift+strzałki, $mod+1..0
+      removed_or_disabled:
+        - cały blok 'bar { ... }' (zastąpiony przez waybar)
+
+    "~/.config/waybar/config.jsonc":
+      content:
+        layer: top
+        position: top
+        modules-left: ["sway/workspaces","sway/window"]
+        modules-center: ["clock"]
+        modules-right: ["pulseaudio","network","battery"]
+        clock.format: "{:%Y-%m-%d %H:%M:%S}"
+        sway/window.format: "{}"
+        pulseaudio:
+          format: "{volume}% "
+          format-muted: "MUTE "
+          on-click: "pavucontrol"
+        network:
+          format-wifi: " {essid} {signalStrength}%"
+          format-ethernet: " {ifname}"
+          format-disconnected: " Disconnected"
+          tooltip: true
+        battery:
+          format: "{capacity}% {icon}"
+          format-icons: ["","","","",""]
+
+    "~/.config/waybar/style.css":
+      content: |
+        * { font-size: 18px; font-family: monospace; }
+        window#waybar { background: #241B2A; color: #d58ab3; }
+        #window { color: #d58ab3; font-weight: 600; }
+        #workspaces button { color: #d58ab3; }
+        #workspaces button.focused { background: #3a2a40; color: #ffffff; }
+        #clock, #pulseaudio, #network, #battery { color: #d58ab3; }
+
+    "~/.config/wofi/config":
+      content: |
+        drun-path=/usr/share/applications:/home/brudna_hara/.local/share/applications
+
+    "~/.local/share/applications/*.desktop":
+      notes:
+        - lokalne launchery Firefoxa widoczne w Wofi dzięki drun-path + XDG_DATA_DIRS
+        - przykładowy wpis:
+          file: "~/.local/share/applications/firefox-gpt5.desktop"
+          Exec: 'firefox-esr --no-remote --new-instance -P GPT5 https://chat.openai.com'
+          Terminal: false
+          Icon: firefox
+          Categories: Network;WebBrowser;
+
+    "~/.bashrc":
+      additions:
+        - kolorowy prompt z venv:
+          PS1: '`if [[ -n "$VIRTUAL_ENV" ]]; then echo -e "\[\e[1;31m\]($(basename $VIRTUAL_ENV)) \[\e[0m\]"; fi`\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;33m\]\w\[\e[0m\]\$ '
+
+  env:
+    XDG_DATA_DIRS: "/home/brudna_hara/.local/share:/usr/local/share:/usr/share"  # widoczność .desktop w Wofi
+
+  behavior_verified:
+    - wofi pod $mod+d widzi lokalne .desktop
+    - waybar startuje z Sway (exec waybar)
+    - touchpad: tap-to-click i natural scroll działają
+    - nawigacja klawiaturą: $mod+strzałki i workspace 1–10
+    - Firefox ESR działa; ostrzeżenia GDK przy starcie z terminala nieszkodliwe
+
+  known_limits:
+    - długie generacje GPT w FF czasem zrywają strumień; odświeżenie karty przywraca widok
