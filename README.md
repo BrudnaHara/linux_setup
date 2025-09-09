@@ -1,11 +1,11 @@
-# Linux Setup – Sway + Waybar + Wofi + Foot + Kitty
+# Linux Setup – Sway + Waybar + Wofi + Foot +
 
 Distro: **Debian 13**  
 
 ---
 
 ## Paczki
-sway swaybg swayidle swaylock waybar wofi wl-clipboard xwayland foot kitty grim slurp pavucontrol libinput-tools wev
+sway swaybg swayidle swaylock waybar wofi wl-clipboard xwayland foot grim slurp pavucontrol libinput-tools wev
 
 ---
 
@@ -21,7 +21,7 @@ sway swaybg swayidle swaylock waybar wofi wl-clipboard xwayland foot kitty grim 
 
 ### Sway (~/.config/sway/config)
 ```ini
-set $term kitty
+set $term foot
 set $menu env XDG_DATA_DIRS=/home/brudna_hara/.local/share:/usr/local/share:/usr/share wofi --show drun
 
 input "SYNA308D:00 06CB:82F5 Touchpad" {
@@ -185,8 +185,6 @@ waybar/
 wofi/
 
 foot/
-
-kitty/
 
 desktop-files/
 
