@@ -57,7 +57,7 @@ exec waybar
     "battery"
   ],
 
-  // Jasność - klik otwiera menu tekstowe (zenity)
+  // Jasność - klik otwiera brightness-menu.sh
   "custom/brightness": {
     "format": "☀️ {}%",
     "tooltip": true,
@@ -90,7 +90,7 @@ exec waybar
     "on-click": "pavucontrol"
   },
 
-  // Sieć - klik otwiera menu tekstowe (nmtui)
+  // Sieć - klik otwiera nm-connection-editor
   "network": {
     "format-wifi": "WiFi: {essid} ({signalStrength}%)",
     "format-ethernet": "LAN: {ifname}",
