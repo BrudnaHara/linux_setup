@@ -1,0 +1,68 @@
+{
+  "layer": "top",
+  "position": "top",
+
+  "modules-left": [
+    "sway/workspaces",
+    "custom/dark-mode"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "custom/brightness",
+    "pulseaudio",
+    "network",
+    "battery"
+  ],
+
+  // Jasność - klik otwiera menu tekstowe (zenity)
+  "custom/brightness": {
+    "format": "☀️ {}%",
+    "tooltip": true,
+    "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
+    "exec": "brightnessctl get | awk '{ printf \"%.0f\", $1/255*100 }'",
+    "interval": 5
+  },
+
+  // Tryb ciemny/jasny - klik przełącza (już jest OK)
+  "custom/dark-mode": {
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "~/.config/waybar/scripts/toggle-dark-mode.sh",
+    "exec": "~/.config/waybar/scripts/get-dark-mode.sh",
+    "interval": 10
+  },
+
+  // Zegar - klik otwiera kalendarz (gnome-calendar)
+  "clock": {
+    "format": "{:%Y-%m-%d %H:%M:%S}",
+    "tooltip": true,
+    "on-click": "gnome-calendar"
+  },
+
+  // Audio - klik otwiera pavucontrol (OK)
+  "pulseaudio": {
+    "format": "{volume}% 🔊",
+    "format-muted": "MUTE 🔇",
+    "tooltip": true,
+    "on-click": "pavucontrol"
+  },
+
+  // Sieć - klik otwiera menu tekstowe (nmtui)
+  "network": {
+    "format-wifi": "WiFi: {essid} ({signalStrength}%)",
+    "format-ethernet": "LAN: {ifname}",
+    "format-disconnected": "Disconnected ❌",
+    "tooltip": true,
+    "on-click": "nm-connection-editor"
+  },
+
+  // Bateria - klik otwiera menu zasilania (textowe)
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": ["🪫", "🔋", "🔋", "🔋", "🔋"],
+    "tooltip": true,
+    "on-click": "~/.config/waybar/scripts/power-menu.sh"
+  }
+}
