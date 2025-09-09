@@ -19,7 +19,7 @@ sway swaybg swayidle swaylock waybar wofi wl-clipboard xwayland foot kitty grim 
 
 ## Konfiguracje
 
-### Sway (`~/.config/sway/config`)
+### Sway (~/.config/sway/config)
 ```ini
 set $term kitty
 set $menu env XDG_DATA_DIRS=/home/brudna_hara/.local/share:/usr/local/share:/usr/share wofi --show drun
@@ -37,7 +37,8 @@ client.unfocused        #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
 client.urgent           #241B2A #241B2A #ff5555 #ff5555 #241B2A
 
 exec waybar
-Waybar
+
+### Waybar  (~/.config/waybar/config)
 {
   "layer": "top",
   "position": "top",
@@ -106,18 +107,28 @@ Waybar
     "on-click": "~/.config/waybar/scripts/power-menu.sh"
   }
 }
-Wofi (~/.config/wofi/config)
+
+### Wofi (~/.config/wofi/config)
 drun-path=/usr/share/applications:/home/brudna_hara/.local/share/applications
 
-Foot (~/.config/foot/foot.ini)
+### Foot (~/.config/foot/foot.ini)
 [colors]
 foreground=a7a2a8
 background=241b2a
 
-Bash prompt (~/.bashrc)
+### Kolory terminala (Micro) (~/.config/micro/settings.json)
+{
+  "softwrap": true,
+  "tabstospaces": true,
+  "tabsize": 4,
+  "colorscheme": "pastelini"
+}
+
+
+### Bash prompt (~/.bashrc)
 PS1='`if [[ -n "$VIRTUAL_ENV" ]]; then echo -e "\[\e[1;31m\]($(basename $VIRTUAL_ENV)) \[\e[0m\]"; fi`\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;33m\]\w\[\e[0m\]\$ '
 
-Przykłady .desktop
+### Przykłady .desktop
 [Desktop Entry]
 Name=Discord
 Exec=discord
@@ -141,7 +152,7 @@ Icon=whatsapp
 Type=Application
 Categories=Network;Chat;
 
-przykład .desktop dla Firefoksa z oddzielnym profilem (np. GPT5):
+### przykład .desktop dla Firefoksa z oddzielnym profilem (np. GPT5):
 [Desktop Entry]
 Name=Firefox GPT5
 Comment=Firefox ESR z profilem GPT5, izolowany
@@ -181,4 +192,3 @@ desktop-files/
 
 sway_setup_manifest.yaml
 
-manifest.md
