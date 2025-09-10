@@ -190,3 +190,17 @@ desktop-files/
 
 sway/manifest.yaml
 
+## Logowanie
+
+Po usunięciu GNOME i GDM system startuje w trybie tekstowym (tty1).  
+Logowanie odbywa się bezpośrednio w konsoli.  
+
+Plik `~/.profile` ma dopisany blok:
+
+    # Start sway only if on tty1
+    if [[ -z $DISPLAY ]] && [[ $(tty) == /dev/tty1 ]]; then
+        exec sway
+    fi
+
+Dzięki temu po zalogowaniu w **tty1** automatycznie startuje **Sway**.  
+Na innych tty (Ctrl+Alt+F2 itd.) uruchamiana jest zwykła powłoka bez graficznego środowiska.
