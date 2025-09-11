@@ -1,206 +1,73 @@
-# Linux Setup – Sway + Waybar + Wofi + Foot +
+# Linux Setup – Debian 13 + Sway
 
-Distro: **Debian 13**  
-
----
-
-## Paczki
-sway swaybg swayidle swaylock waybar wofi wl-clipboard xwayland foot grim slurp pavucontrol libinput-tools wev
+Minimalny setup oparty na **Debian 13** i menedżerze okien **Sway**.  
+Celem było pozbycie się ciężkich środowisk (GNOME) i skonfigurowanie lekkiego, ręcznie sterowanego systemu.  
 
 ---
 
-## Kolorystyka (motyw pastelowy)
-- **tło:** `#241B2A`
-- **akcent aktywny:** `#d58ab3` (pastelowy róż)
-- **akcent nieaktywny:** `#88d8b0` (pastelowa mięta)
-- **tekst neutralny:** `#A7A2A8`
+## Komponenty
+
+- **Sway** – główny window manager  
+- **Waybar** – panel statusu z własnymi modułami  
+- **Wofi** – launcher i menu wyboru (także jako `--dmenu` w skryptach)  
+- **Foot** – terminal  
+- **Micro** – lekki edytor tekstu  
+- **Pakiety dodatkowe** – grim, slurp, pavucontrol, wl-clipboard, libinput-tools, wev  
 
 ---
 
-## Konfiguracje
-
-### Sway (~/.config/sway/config)
-```ini
-set $term foot
-set $menu wofi --show drun
-
-input "SYNA308D:00 06CB:82F5 Touchpad" {
-    tap enabled
-    natural_scroll enabled
-    dwt enabled
-    click_method clickfinger
-}
-
-client.focused          #241B2A #241B2A #d58ab3 #d58ab3 #d58ab3
-client.focused_inactive #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
-client.unfocused        #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
-client.urgent           #241B2A #241B2A #ff5555 #ff5555 #241B2A
-
-exec waybar
-
-### Waybar  (~/.config/waybar/config)
-{
-  "layer": "top",
-  "position": "top",
-
-  "modules-left": [
-    "sway/workspaces",
-    "custom/dark-mode"
-  ],
-  "modules-center": [
-    "clock"
-  ],
-  "modules-right": [
-    "custom/brightness",
-    "pulseaudio",
-    "network",
-    "battery"
-  ],
-
-  // Jasność - klik otwiera brightness-menu.sh
-  "custom/brightness": {
-    "format": "☀️ {}%",
-    "tooltip": true,
-    "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
-    "exec": "brightnessctl get | awk '{ printf \"%.0f\", $1/255*100 }'",
-    "interval": 5
-  },
-
-  // Tryb ciemny/jasny - klik przełącza (już jest OK)
-  "custom/dark-mode": {
-    "format": "{}",
-    "tooltip": true,
-    "on-click": "~/.config/waybar/scripts/toggle-dark-mode.sh",
-    "exec": "~/.config/waybar/scripts/get-dark-mode.sh",
-    "interval": 10
-  },
-
-  // Zegar - klik otwiera kalendarz (gnome-calendar)
-  "clock": {
-    "format": "{:%Y-%m-%d %H:%M:%S}",
-    "tooltip": true,
-    "on-click": "gnome-calendar"
-  },
-
-  // Audio - klik otwiera pavucontrol (OK)
-  "pulseaudio": {
-    "format": "{volume}% 🔊",
-    "format-muted": "MUTE 🔇",
-    "tooltip": true,
-    "on-click": "pavucontrol"
-  },
-
-  // Sieć - klik otwiera nm-connection-editor
-  "network": {
-    "format-wifi": "WiFi: {essid} ({signalStrength}%)",
-    "format-ethernet": "LAN: {ifname}",
-    "format-disconnected": "Disconnected ❌",
-    "tooltip": true,
-    "on-click": "nmtui"
-  },
-
-  // Bateria - klik otwiera menu zasilania (textowe)
-  "battery": {
-    "format": "{capacity}% {icon}",
-    "format-icons": ["🪫", "🔋", "🔋", "🔋", "🔋"],
-    "tooltip": true,
-    "on-click": "~/.config/waybar/scripts/power-menu.sh"
-  }
-}
-
-### Wofi (~/.config/wofi/config)
-drun-path=/usr/share/applications:/home/brudna_hara/.local/share/applications
-
-### Foot (~/.config/foot/foot.ini)
-[colors]
-foreground=a7a2a8
-background=241b2a
-
-### Kolory terminala (Micro) (~/.config/micro/settings.json)
-{
-  "softwrap": true,
-  "tabstospaces": true,
-  "tabsize": 4,
-  "colorscheme": "pastelini"
-}
+## Struktura repo
+sway/ → konfiguracja Sway + manifest.yaml
+waybar/ → config.jsonc, style.css, skrypty (jasność, audio, wifi, zasilanie)
+wofi/ → config + style.css
+foot/ → foot.ini (kolory terminala)
+desktop-files/ → własne launchery .desktop (Firefox profiles, Discord, Telegram, WhatsApp)
 
 
-### Bash prompt (~/.bashrc)
-PS1='`if [[ -n "$VIRTUAL_ENV" ]]; then echo -e "\[\e[1;31m\]($(basename $VIRTUAL_ENV)) \[\e[0m\]"; fi`\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;33m\]\w\[\e[0m\]\$ '
+---
 
-### Przykłady .desktop
-[Desktop Entry]
-Name=Discord
-Exec=discord
-Icon=discord
-Type=Application
-Categories=Network;Chat;
+## Najważniejsze ustawienia
 
-Telegram
-[Desktop Entry]
-Name=Telegram
-Exec=telegram-desktop
-Icon=telegram
-Type=Application
-Categories=Network;Chat;
+- **Autologowanie**: po usunięciu GNOME/GDM system startuje w trybie tekstowym (tty1).  
+  W `~/.profile` jest blok:  
+  ```bash
+  if [[ -z $DISPLAY ]] && [[ $(tty) == /dev/tty1 ]]; then
+      exec sway
+  fi
+→ logowanie na tty1 automatycznie uruchamia Sway.
 
-WhatsApp
-[Desktop Entry]
-Name=WhatsApp
-Exec=whatsapp-for-linux
-Icon=whatsapp
-Type=Application
-Categories=Network;Chat;
+Waybar:
 
-### przykład .desktop dla Firefoksa z oddzielnym profilem (np. GPT5):
-[Desktop Entry]
-Name=Firefox GPT5
-Comment=Firefox ESR z profilem GPT5, izolowany
-Exec=firefox-esr --no-remote --new-instance -P GPT5 https://chat.openai.com
-Icon=firefox
-Type=Application
-Categories=Network;WebBrowser;
-Terminal=false
-StartupWMClass=FirefoxGPT5
+[br] = jasność (skrypt brightness-menu.sh)
 
-    --no-remote → uniemożliwia współdzielenie instancji,
+[vol] = głośność (skrypt audio-menu.sh)
 
-    --new-instance → wymusza nowy proces,
+[net] = sieć WiFi/Ethernet (skrypt wifi-menu.sh)
 
-    -P GPT5 → używa profilu GPT5,
+[bat] = bateria (skrypt power-menu.sh)
 
-    StartupWMClass → pozwala Waylandowi/Sway odróżnić okna i przypiąć je np. do workspace.
+Wofi:
 
+działa jako launcher (wofi --show drun)
+
+używany w trybie --dmenu w skryptach Waybara
+
+ma własny style.css
+
+Foot: pastelowy kolor motywu (foreground #a7a2a8, background #241b2a)
+
+Manifest
+
+Szczegółowy opis wszystkich paczek i konfiguracji → sway/manifest.yaml
 
 Repozytorium
 
 GitHub: BrudnaHara/linux_setup
 
-Zawartość:
+Cel projektu
 
-sway/
+Użyteczny, minimalistyczny desktop na Debianie 13
 
-waybar/
+Dokumentacja procesu dla osób chcących przejść z ciężkich środowisk na Sway
 
-wofi/
-
-foot/
-
-desktop-files/
-
-sway/manifest.yaml
-
-## Logowanie
-
-Po usunięciu GNOME i GDM system startuje w trybie tekstowym (tty1).  
-Logowanie odbywa się bezpośrednio w konsoli.  
-
-Plik `~/.profile` ma dopisany blok:
-
-    # Start sway only if on tty1
-    if [[ -z $DISPLAY ]] && [[ $(tty) == /dev/tty1 ]]; then
-        exec sway
-    fi
-
-Dzięki temu po zalogowaniu w **tty1** automatycznie startuje **Sway**.  
-Na innych tty (Ctrl+Alt+F2 itd.) uruchamiana jest zwykła powłoka bez graficznego środowiska.
+Publiczny przykład pełnego setupu (configi + manifest)

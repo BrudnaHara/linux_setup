@@ -1,0 +1,54 @@
+/* Paleta */
+@define-color bg #241B2A;
+@define-color fg #A7A2A8;
+@define-color acc #d58ab3;   /* aktywny */
+@define-color dim #88d8b0;   /* nieaktywny */
+
+window {
+  background: @bg;
+  color: @fg;
+  border: 2px solid @acc;
+  border-radius: 12px;
+}
+
+#outer-box {
+  padding: 10px;
+}
+
+#input {
+  background: shade(@bg, 1.08);
+  color: @fg;
+  border: 1px solid @acc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+#inner-box {
+  background: @bg;
+  border: 1px solid alpha(@fg,0.15);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+#entry {
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+#entry:selected {
+  background: alpha(@acc,0.18);
+  border: 1px solid @acc;
+}
+
+#text {
+  color: @fg;
+}
+
+#img {
+  margin-right: 6px;
+}
+
+#scroll {
+  border: none;
+}

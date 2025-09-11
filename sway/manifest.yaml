@@ -20,63 +20,68 @@ sway_setup_manifest:
     "sway/config.2025-09-09":
       is_active: true
       highlights:
-        - set $mod Mod4
         - set $term foot
         - set $menu wofi --show drun
         - 'output * scale 1.5'
-        - |
-          input * {
-              xkb_layout "pl"
-          }
-        - |
-          input "SYNA308D:00 06CB:82F5 Touchpad" {
-              tap enabled
-              natural_scroll enabled
-              dwt enabled
-              click_method clickfinger
-          }
-        - |
-          client.focused          #d58ab3 #241B2A #d58ab3 #d58ab3 #d58ab3
-          client.focused_inactive #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
-          client.unfocused        #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
-          client.urgent           #241B2A #241B2A #ff5555 #ff5555 #241B2A
         - 'exec waybar'
+        - 'input * { xkb_layout "pl" }'
+        - 'input "SYNA308D:00 06CB:82F5 Touchpad" { tap enabled; natural_scroll enabled; dwt enabled; click_method clickfinger }'
+        - 'client.* kolory zgodnie z README'
 
     "waybar/config.jsonc":
-      path: waybar/config.jsonc
+      path: ~/.config/waybar/config.jsonc
+      modules:
+        left: ["sway/workspaces"]
+        center: ["clock"]
+        right: ["custom/brightness","pulseaudio","network","battery"]
+      on_click:
+        custom/brightness: "~/.config/waybar/scripts/brightness-menu.sh"
+        pulseaudio: "~/.config/waybar/scripts/audio-menu.sh"
+        network: "~/.config/waybar/scripts/wifi-menu.sh"
+        battery: "~/.config/waybar/scripts/power-menu.sh"
+
     "waybar/style.css":
-      path: waybar/style.css
+      path: ~/.config/waybar/style.css
+
     "waybar/scripts":
       paths:
-        - waybar/scripts/brightness-menu.sh
-        - waybar/scripts/get-dark-mode.sh
-        - waybar/scripts/power-menu.sh
-        - waybar/scripts/toggle-dark-mode.sh
+        - ~/.config/waybar/scripts/brightness-menu.sh
+        - ~/.config/waybar/scripts/audio-menu.sh
+        - ~/.config/waybar/scripts/wifi-menu.sh
+        - ~/.config/waybar/scripts/power-menu.sh
+      note: wszystkie mają chmod +x
 
     "wofi/config":
-      path: wofi/config
+      path: ~/.config/wofi/config
       notes:
-        - Używamy domyślnego XDG; brak ręcznego XDG_DATA_DIRS.
+        - używane także jako --dmenu w skryptach
+
+    "wofi/style.css":
+      path: ~/.config/wofi/style.css
 
     "foot/foot.ini":
-      path: foot/foot.ini
+      path: ~/.config/foot/foot.ini
 
     "desktop-files":
       paths:
-        - desktop-files/discord.desktop
-        - desktop-files/telegram.desktop
-        - desktop-files/whatsapp.desktop
+        - ~/.local/share/applications/firefox-AI.desktop
+        - ~/.local/share/applications/firefox-firefoxGPT.desktop
+        - ~/.local/share/applications/firefox-General.desktop
+        - ~/.local/share/applications/firefox-gpt5.desktop
+        - ~/.local/share/applications/discord.desktop
+        - ~/.local/share/applications/telegram.desktop
+        - ~/.local/share/applications/whatsapp.desktop
 
   env:
     notes:
       - Nie nadpisujemy XDG_DATA_DIRS. Systemowe wartości wystarczają.
 
   behavior_verified:
+    - $mod+Return uruchamia foot
     - $mod+d uruchamia Wofi (drun)
-    - Waybar startuje z Sway (exec waybar)
-    - Touchpad: tap-to-click i natural scroll działają
-    - Nawigacja: $mod+strzałki, $mod+Shift+strzałki, workspaces 1–10
-    - Firefox ESR działa
+    - Waybar działa z modułami: brightness, audio, network, battery
+    - Skrypty Waybar są wykonywalne i działają
+    - Logowanie w tty1, autostart Sway z ~/.profile
 
   known_limits:
-    - Długie generacje w FF czasem zrywają strumień; odświeżenie karty pomaga
+    - Brak GNOME ani gnome-calendar; on-click zegara bez akcji
