@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Firefox AI
+Comment=Firefox ESR z profilem AI, izolowany
+Exec=firefox-esr --no-remote --new-instance -P AI
+Icon=firefox
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=FirefoxAI

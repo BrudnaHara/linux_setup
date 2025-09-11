@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Firefox GPT5
+Comment=Firefox ESR z profilem GPT5, izolowany
+Exec=firefox-esr --no-remote --new-instance -P GPT5 https://chat.openai.com
+Icon=firefox
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=FirefoxGPT5
+

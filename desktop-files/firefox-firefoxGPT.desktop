@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Firefox GPT
+Exec=firefox -no-remote -P firefoxGPT
+Icon=firefox
+Type=Application
+Categories=Network;WebBrowser;

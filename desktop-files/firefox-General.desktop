@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Firefox General
+Comment=Firefox ESR z profilem General, izolowany
+Exec=firefox-esr --no-remote --new-instance -P General
+Icon=firefox
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=FirefoxGeneral
