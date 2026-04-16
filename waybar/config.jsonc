@@ -11,7 +11,7 @@
   ],
   "modules-right": [
     "custom/brightness",
-    "pulseaudio",
+    "wireplumber",
     "network",
     "battery"
   ],
@@ -31,12 +31,12 @@
     "tooltip": true
   },
 
-  // Audio (PipeWire – natywny moduł Waybara)
-  "pipewire": {
+  // Audio 
+  "wireplumber": {
     "format": "[vol]{volume}% ",
     "format-muted": "[mute] 0%",
     "tooltip": true,
-     "on-click": "~/.config/waybar/scripts/audio-menu.sh"
+    "on-click": "~/.config/waybar/scripts/audio-menu.sh"
   },
 
   // Sieć
@@ -46,7 +46,6 @@
     "format-disconnected": "[netX] down ",
     "tooltip": true,
     "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
-
   },
 
   // Bateria
