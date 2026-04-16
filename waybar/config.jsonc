@@ -18,12 +18,14 @@
 
   // Jasność
   "custom/brightness": {
-    "format": " [br]{}% ",
-    "tooltip": true,
-    "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
-    "exec": "brightnessctl get | awk '{ printf \"%.0f\", $1/255*100 }'",
-    "interval": 5
-  },
+     "format": " [br]{}% ",
+     "tooltip": true,
+     "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
+     "on-scroll-up": "brightnessctl set 5%+",
+     "on-scroll-down": "brightnessctl set 5%-",
+     "exec": "brightnessctl get | awk '{ printf \"%.0f\", $1/255*100 }'",
+     "interval": 5
+   },
 
   // Zegar
   "clock": {
