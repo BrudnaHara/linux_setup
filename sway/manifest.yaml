@@ -12,7 +12,7 @@ sway_setup_manifest:
     - foot
     - grim
     - slurp
-    - pavucontrol
+    - pipefail
     - libinput-tools
     - wev
 
@@ -33,7 +33,7 @@ sway_setup_manifest:
       modules:
         left: ["sway/workspaces"]
         center: ["clock"]
-        right: ["custom/brightness","pulseaudio","network","battery"]
+        right: ["brightness","volume","network","battery"]
       on_click:
         custom/brightness: "~/.config/waybar/scripts/brightness-menu.sh"
         pulseaudio: "~/.config/waybar/scripts/audio-menu.sh"
