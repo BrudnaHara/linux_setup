@@ -1,3 +1,4 @@
+```yaml
 sway_setup_manifest:
   distro: Debian 13
   packages_installed:
@@ -12,33 +13,40 @@ sway_setup_manifest:
     - foot
     - grim
     - slurp
-    - pipefail
     - libinput-tools
     - wev
+    - micro
+    - wireplumber
+    - bluez
+    - network-manager
+    - brightnessctl
 
   files:
     "sway/config.2025-09-09":
       is_active: true
       highlights:
-        - set $term foot
-        - set $menu wofi --show drun
+        - 'set $term foot'
+        - 'set $menu wofi --show drun'
         - 'output * scale 1.5'
         - 'exec waybar'
         - 'input * { xkb_layout "pl" }'
         - 'input "SYNA308D:00 06CB:82F5 Touchpad" { tap enabled; natural_scroll enabled; dwt enabled; click_method clickfinger }'
-        - 'client.* kolory zgodnie z README'
+        - 'Brak skrótów klawiaturowych dla audio (omijanie sprzętowych problemów z warstwą jądra przez sterowanie w Waybar)'
 
     "waybar/config.jsonc":
       path: ~/.config/waybar/config.jsonc
       modules:
         left: ["sway/workspaces"]
         center: ["clock"]
-        right: ["brightness","volume","network","battery"]
+        right: ["custom/brightness", "wireplumber", "network", "battery"]
       on_click:
         custom/brightness: "~/.config/waybar/scripts/brightness-menu.sh"
-        pulseaudio: "~/.config/waybar/scripts/audio-menu.sh"
+        wireplumber: "~/.config/waybar/scripts/audio-menu.sh"
         network: "~/.config/waybar/scripts/wifi-menu.sh"
         battery: "~/.config/waybar/scripts/power-menu.sh"
+      on_scroll:
+        custom/brightness: "brightnessctl set 5%+ / 5%-"
+        wireplumber: "natywna obsługa przez API PipeWire"
 
     "waybar/style.css":
       path: ~/.config/waybar/style.css
@@ -49,12 +57,14 @@ sway_setup_manifest:
         - ~/.config/waybar/scripts/audio-menu.sh
         - ~/.config/waybar/scripts/wifi-menu.sh
         - ~/.config/waybar/scripts/power-menu.sh
-      note: wszystkie mają chmod +x
+      notes:
+        - 'wymagany chmod +x'
 
     "wofi/config":
       path: ~/.config/wofi/config
       notes:
-        - używane także jako --dmenu w skryptach
+        - 'używane także jako --dmenu w skryptach'
+        - 'wykorzystanie flagi --allow-input do manualnego wprowadzania wartości (jasność/głośność)'
 
     "wofi/style.css":
       path: ~/.config/wofi/style.css
@@ -74,14 +84,17 @@ sway_setup_manifest:
 
   env:
     notes:
-      - Nie nadpisujemy XDG_DATA_DIRS. Systemowe wartości wystarczają.
+      - 'Nie nadpisujemy XDG_DATA_DIRS. Systemowe wartości wystarczają.'
 
   behavior_verified:
-    - $mod+Return uruchamia foot
-    - $mod+d uruchamia Wofi (drun)
-    - Waybar działa z modułami: brightness, audio, network, battery
-    - Skrypty Waybar są wykonywalne i działają
-    - Logowanie w tty1, autostart Sway z ~/.profile
+    - '$mod+Return uruchamia foot'
+    - '$mod+d uruchamia Wofi (drun)'
+    - 'Płynna regulacja touchapadem (scroll) na modułach jasności i dźwięku'
+    - 'Skrypty Waybar są wykonywalne i zintegrowane z logiką wpctl / brightnessctl'
+    - 'Logowanie w tty1, autostart Sway z ~/.profile'
+    - 'Przeładowanie Waybara odbywa się przez killall -SIGUSR2 waybar'
 
   known_limits:
-    - Brak GNOME ani gnome-calendar; on-click zegara bez akcji
+    - 'Brak GNOME ani gnome-calendar; on-click zegara bez akcji'
+    - 'Klawisze funkcyjne audio (XF86) martwe sprzętowo; interfejs oparty celowo na Waybar/Wofi'
+```
