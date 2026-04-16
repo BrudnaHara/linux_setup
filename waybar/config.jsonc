@@ -31,8 +31,8 @@
     "tooltip": true
   },
 
-  // Audio
-  "pulseaudio": {
+  // Audio (PipeWire – natywny moduł Waybara)
+  "pipewire": {
     "format": "[vol]{volume}% ",
     "format-muted": "[mute] 0%",
     "tooltip": true,
