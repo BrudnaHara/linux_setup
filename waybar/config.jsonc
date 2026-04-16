@@ -1,10 +1,10 @@
 {
   "layer": "top",
   "position": "top",
+  "spacing": 8,
 
   "modules-left": [
-    "sway/workspaces",
-    "custom/dark-mode"
+    "sway/workspaces"
   ],
   "modules-center": [
     "clock"
@@ -16,52 +16,42 @@
     "battery"
   ],
 
-  // Jasność - klik otwiera menu tekstowe (zenity)
+  // Jasność
   "custom/brightness": {
-    "format": "☀️ {}%",
+    "format": " [br]{}% ",
     "tooltip": true,
     "on-click": "~/.config/waybar/scripts/brightness-menu.sh",
     "exec": "brightnessctl get | awk '{ printf \"%.0f\", $1/255*100 }'",
     "interval": 5
   },
 
-  // Tryb ciemny/jasny - klik przełącza (już jest OK)
-  "custom/dark-mode": {
-    "format": "{}",
-    "tooltip": true,
-    "on-click": "~/.config/waybar/scripts/toggle-dark-mode.sh",
-    "exec": "~/.config/waybar/scripts/get-dark-mode.sh",
-    "interval": 10
-  },
-
-  // Zegar - klik otwiera kalendarz (gnome-calendar)
+  // Zegar
   "clock": {
     "format": "{:%Y-%m-%d %H:%M:%S}",
-    "tooltip": true,
-    "on-click": "gnome-calendar"
+    "tooltip": true
   },
 
-  // Audio - klik otwiera pavucontrol (OK)
+  // Audio
   "pulseaudio": {
-    "format": "{volume}% 🔊",
-    "format-muted": "MUTE 🔇",
+    "format": "[vol]{volume}% ",
+    "format-muted": "[mute] 0%",
     "tooltip": true,
-    "on-click": "pavucontrol"
+     "on-click": "~/.config/waybar/scripts/audio-menu.sh"
   },
 
-  // Sieć - klik otwiera menu tekstowe (nmtui)
+  // Sieć
   "network": {
-    "format-wifi": "WiFi: {essid} ({signalStrength}%)",
-    "format-ethernet": "LAN: {ifname}",
-    "format-disconnected": "Disconnected ❌",
+    "format-wifi": "[net]{essid} ",
+    "format-ethernet": "[eth] {ifname} ",
+    "format-disconnected": "[netX] down ",
     "tooltip": true,
-    "on-click": "nm-connection-editor"
+    "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+
   },
 
-  // Bateria - klik otwiera menu zasilania (textowe)
+  // Bateria
   "battery": {
-    "format": "{capacity}% {icon}",
-    "format-icons": ["🪫", "🔋", "🔋", "🔋", "🔋"],
+    "format": "[bat]{capacity}% ",
     "tooltip": true,
     "on-click": "~/.config/waybar/scripts/power-menu.sh"
   }
