@@ -12,7 +12,7 @@ Celem było pozbycie się ciężkich środowisk (GNOME) i skonfigurowanie lekkie
 - **Wofi** – launcher i menu wyboru (także jako `--dmenu` w skryptach)  
 - **Foot** – terminal  
 - **Micro** – lekki edytor tekstu  
-- **Pakiety dodatkowe** – grim, slurp, pavucontrol, wl-clipboard, libinput-tools, wev  
+- **Pakiety dodatkowe** – grim, slurp, pipefail, wl-clipboard, libinput-tools, wev  
 
 ---
 
