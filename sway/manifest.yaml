@@ -1,4 +1,3 @@
-```yaml
 sway_setup_manifest:
   distro: Debian 13
   packages_installed:
@@ -97,4 +96,3 @@ sway_setup_manifest:
   known_limits:
     - 'Brak GNOME ani gnome-calendar; on-click zegara bez akcji'
     - 'Klawisze funkcyjne audio (XF86) martwe sprzętowo; interfejs oparty celowo na Waybar/Wofi'
-```
