@@ -21,7 +21,8 @@ sway_setup_manifest:
     - brightnessctl
 
   files:
-    "sway/config.2025-09-09":
+    "sway/config":
+      path: ~/.config/sway/config
       is_active: true
       highlights:
         - 'set $term foot'
@@ -61,6 +62,7 @@ sway_setup_manifest:
 
     "wofi/config":
       path: ~/.config/wofi/config
+      drun_path: "/usr/share/applications:~/.local/share/applications"
       notes:
         - 'używane także jako --dmenu w skryptach'
         - 'wykorzystanie flagi --allow-input do manualnego wprowadzania wartości (jasność/głośność)'
@@ -82,8 +84,12 @@ sway_setup_manifest:
         - ~/.local/share/applications/whatsapp.desktop
 
   env:
+    application_paths:
+      user_local: ~/.local/share/applications
+      system_wide: /usr/share/applications
     notes:
       - 'Nie nadpisujemy XDG_DATA_DIRS. Systemowe wartości wystarczają.'
+      - 'Wofi i system czytają aktywatory bezpośrednio ze standardowych ścieżek aplikacji.'
 
   behavior_verified:
     - '$mod+Return uruchamia foot'
