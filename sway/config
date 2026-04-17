@@ -19,7 +19,7 @@ input * {
     xkb_layout "pl"
 }
 
-input "SYNA308D:00 06CB:82F5 Touchpad" {
+input type:touchpad {
     tap enabled
     natural_scroll enabled
     dwt enabled
@@ -115,15 +115,14 @@ bindsym $mod+r mode "resize"
 
 ### Utilities
 # Audio
-bindsym --locked XF86AudioMute         exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-bindsym --locked XF86AudioRaiseVolume  exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
-bindsym --locked XF86AudioMicMute      exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym --locked XF86AudioMute         exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume  exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume  exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute      exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 # Brightness
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp   exec brightnessctl set 5%+
 # Screenshot
-bindsym Print exec grim
 
 ### Waybar
 exec waybar
@@ -135,3 +134,4 @@ client.unfocused        #241B2A #241B2A #88d8b0 #88d8b0 #241B2A
 client.urgent           #241B2A #241B2A #ff5555 #ff5555 #241B2A
 
 include /etc/sway/config.d/*
+bindsym Shift+Print exec grim -g "$(slurp)" ~/Obrazy/screenshot-$(date +%F_%H-%M-%S).png
